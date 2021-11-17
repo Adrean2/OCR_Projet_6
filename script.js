@@ -1,8 +1,8 @@
 const FILM_LIMIT = 7
 const modal = document.getElementsByClassName("modal")[0]
 const span = document.getElementsByClassName("close")[0]
-const rarrow = document.getElementById("right-arrow")
-const larrow = document.getElementById("left-arrow")
+const rarrow = document.getElementsByClassName("right-arrow")
+const larrow = document.getElementsByClassName("left-arrow")
 
 // Methode fetch pour récupérer les films
 async function fetch_movies(url,limit = FILM_LIMIT,){
@@ -26,7 +26,7 @@ async function fetch_movie_data(movie){
   return data
 }
 // Attribution des données récoltés pour chaque film
-async function create_movie_datas(genre = String,endpoint="?genre=") {
+async function get_movie_datas(genre = String,endpoint="?genre=") {
   let url = `http://127.0.0.1:8000/api/v1/titles/${endpoint}${genre}`
   let movie_datas = []
   let movie_list = await fetch_movies(url)
@@ -36,17 +36,18 @@ async function create_movie_datas(genre = String,endpoint="?genre=") {
   }
   return movie_datas
 }
-// Création des div movies contenant un event listener et une image
+// Création des élements du DOM
 function create_movie_element(movie){
   const movie_element = document.createElement("div")
   movie_element.classList.add("movie")
   const img = create_img_element(movie.image_url)
   movie_element.appendChild(img)
   movie_element.addEventListener("click", function(){
-    create_movie_content(movie)
+    create_movie_modal_content(movie)
   });
   return movie_element
 }
+
 function create_img_element(source){
   const img_element = document.createElement("img")
   img_element.src = source
@@ -59,7 +60,7 @@ function create_li_element(content){
   return li_element
 }
 
-function create_movie_content(movie){
+function create_movie_modal_content(movie){
     modal.style.display = "block"
     const modal_content = document.getElementsByClassName("modal-content")[0]
     const ul = document.createElement("ul")
@@ -76,17 +77,25 @@ function create_movie_content(movie){
     }
 }
 
-function create_container_content(movie_datas,container_name){
-  let heading_container = document.querySelector(`#${container_name}-container`)
-  for(let movie of movie_datas){
-    const movie_element = create_movie_element(movie)
-    heading_container.appendChild(movie_element)
-  }
-}
 function close_modal(){
   modal.style.display = "none"
     let ul = modal.querySelector("ul")
     ul.remove()
+}
+
+async function create_div_from_list(liste_category){
+  for(let heading of liste_category){
+    let movie_datas = await get_movie_datas(heading.innerHTML)
+    create_div_from_data(movie_datas,heading.innerHTML)
+  }
+}
+
+function create_div_from_data(movie_datas,container_name){
+let heading_container = document.querySelector(`#${container_name}-container`)
+for(let movie of movie_datas){
+  const movie_element = create_movie_element(movie)
+  heading_container.appendChild(movie_element)
+}
 }
 
 (async () => {
@@ -101,8 +110,8 @@ function close_modal(){
   })
   
   // Section Films les mieux notés
-  let best_movies = await create_movie_datas("?sort_by=-imdb_score",endpoint="")
-  create_container_content(best_movies.slice(0,4),"best-movies")
+  let best_movies = await get_movie_datas("-imdb_score",endpoint="?sort_by=")
+  create_div_from_data(best_movies,"-imdb_score")
 
   // Section MEILLEUR FILM (avec boutton play)
   const meilleur_film = best_movies[0]
@@ -117,30 +126,26 @@ function close_modal(){
 
   // Les 3 autres catégories
   const headings = document.getElementsByTagName("h1")
-  var index1 = 0
-  var index2 = 4
-  await create_cat_div(headings,index1,index2)
-
+  await create_div_from_list(headings)
+  
   // Buffer Circulaire
-  rarrow.addEventListener("click" ,function(){
-    index1 -=1
-    index2 -=1
-    create_cat_div(headings,index1,index2)
+  for(let arrow of rarrow){
+    arrow.addEventListener("click" ,async function(e){
+      let wrapper = e.target.parentElement
+      let container = wrapper.querySelector(".movies-container")
+      container.scrollBy({
+        left: container.offsetWidth/3,
+        top: 0,
+        behavior:"smooth"})
     })
-
-  larrow.addEventListener("click" ,function(){
-      index1 +=1
-      index2 +=1
-      create_cat_div(headings,index1,index2)
-    })
-
-})()
-
-async function create_cat_div(liste_category,index1,index2){
-  for(let heading of liste_category){
-    let movie_datas = await create_movie_datas(heading.innerHTML)
-    create_container_content(movie_datas.slice(index1,index2),heading.innerHTML)
   }
-}
-
-// // jumbotron + buffer circulaire
+  for(let arrow of larrow){
+    arrow.addEventListener("click" ,async function(e){
+      let wrapper = e.target.parentElement
+      let container = wrapper.querySelector(".movies-container")
+      container.scrollBy({
+        left: -container.offsetWidth/3,
+        top:0,
+        behavior:"smooth"})
+    })}
+})()

@@ -82,13 +82,13 @@ h1,h2{
 .movies-container{
     display:flex;
     gap:1em;
-    justify-content:center;
-    align-items:center;
-    flex-wrap:wrap;
+    justify-content:start;
+    flex-wrap:nowrap;
+    overflow:hidden;
 }
 
 .movies-container > div{
-    flex: 0 1 0%;
+    flex: 0 1 25%;
     min-width:20%;
     height:0;
     padding-bottom:20%;
@@ -98,6 +98,7 @@ h1,h2{
 .movie{
     overflow: hidden;
 }
+
 .movie img{
     width: 100%;
     height:auto;
@@ -108,23 +109,26 @@ h1,h2{
     cursor: pointer;
 }
 
-.arrow{
+.left-arrow,.right-arrow{
     position:absolute;
     top:58%;
     color:black;
 }
-.arrow:hover{
+.left-arrow:hover,.right-arrow:hover{
     cursor:pointer;
 }
-#left-arrow{
+.left-arrow{
     margin-left: -3%;
 }
-
-#right-arrow{
+.right-arrow{
     right:-3%;
 }
 
-
+.modal-header {
+    display:flex;
+    justify-content:space-between;
+    align-items: center;
+}
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
