@@ -115,14 +115,13 @@ for(let movie of movie_datas){
 
   // Section MEILLEUR FILM (avec boutton play)
   const meilleur_film = best_movies[0]
-  let meilleur_film_img = document.querySelector("#bm-img")
-  let meilleur_film_title = document.querySelector(".bm-title")
-  meilleur_film_img.src = meilleur_film.image_url
-  meilleur_film_title.innerHTML = meilleur_film.title
-  const bm_desc = document.createElement("div")
+  const bm_desc = document.createElement("p")
+  bm_desc.setAttribute("align","justify")
+  document.querySelector(".bm-description").appendChild(bm_desc)
+  document.querySelector(".bm-title").innerHTML = meilleur_film.title
   bm_desc.innerHTML = meilleur_film.description
   bm_desc.classList.add("bm-desc")
-  meilleur_film_title.appendChild(bm_desc)
+  document.querySelector("#bm-img").src = meilleur_film.image_url
 
   // Les 3 autres catégories
   const headings = document.getElementsByTagName("h1")

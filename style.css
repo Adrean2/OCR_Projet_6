@@ -3,37 +3,37 @@ body{
 }
 .header-container{
     background-color: rgba(36, 46, 63, 0.609);
+    color:white;
     height: 5em;
     border: 1px solid rgba(36, 46, 63, 0.609);
     padding: 10px;
     display:flex;
     align-items: center;
     justify-content: space-between;
-    width: clamp(200px,50%);
 }
 
 .head-logo{
-    color:white;
-    font-size: 18px;
-    flex-grow:2;
+    font-size: 1.5em;
+    flex:2 1 0;
 }
 
 .head-div{
-    flex-grow:1;
-    color: white;
-    font-size: 18px;
+    flex: 1 2 0;
+    font-size: 1.5em;
 }
 
 .bm-container{
-    border: 2px solid black;
+    border: 4px solid black;
     margin-top: 5%;
     padding:1%;
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 1fr;
     place-items: center;
     grid-template-areas:"titre img"
+                        "desc img"
                         "play img";
 }
+
 .bm-container img{
     grid-area:img;
     width: 35%;
@@ -43,14 +43,16 @@ body{
 }
 .bm-title{
     grid-area:titre;
-    font-style: oblique;
-    font-size: 1em;
+    font-size: 2em;
+    font-weight: bold;
     display:flex;
     flex-direction: column;
     align-items:center;
     justify-content:center;
 }
-
+.bm-description{
+    grid-area:desc;
+}
 #bm-play{
         grid-area:play;
         background-color: rgb(226, 139, 139);
