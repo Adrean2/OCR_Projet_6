@@ -3,7 +3,7 @@
 Ce projet consiste à créer une page web en HTML, CSS et JavaScript en utilisant une API.
 
 ## Installation
-Téléchargez et suivez l'installation de l'![API](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR) d'OCMovies
+Téléchargez et suivez l'installation de l'[API](https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR) d'OCMovies
 Attention ! Installer OCMovies dans le même dossier où vous avez mis les fichiers du site (Projet_6.html,style.css,script.js).
 
 ## Chargement de la page web
