@@ -41,7 +41,9 @@ body{
     height:auto;
     place-self: center;
 }
-
+#bm-img:hover{
+    cursor:pointer;
+}
 .bm-title{
     grid-area:titre;
     font-size: 2em;
