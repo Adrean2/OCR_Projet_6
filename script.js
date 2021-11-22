@@ -76,20 +76,21 @@ function create_movie_modal_content(movie){
       
     }
 }
-
+// Clear de la modal 
 function close_modal(){
   modal.style.display = "none"
     let ul = modal.querySelector("ul")
     ul.remove()
 }
 
+// Créer les div des catégories
 async function create_div_from_list(liste_category){
   for(let heading of liste_category){
     let movie_datas = await get_movie_datas(heading.innerHTML)
     create_div_from_data(movie_datas,heading.innerHTML)
   }
 }
-
+// Créer les divs ainsi que leurs contenu
 function create_div_from_data(movie_datas,container_name){
 let heading_container = document.querySelector(`#${container_name}-container`)
 for(let movie of movie_datas){
@@ -98,7 +99,9 @@ for(let movie of movie_datas){
 }
 }
 
+// IIFE (Immediatly Invoked Function Expression) et donc, exécutions des fonctions
 (async () => {
+
   // Fermeture Modal
   span.addEventListener("click",function() {
     close_modal()
@@ -121,7 +124,11 @@ for(let movie of movie_datas){
   document.querySelector(".bm-title").innerHTML = meilleur_film.title
   bm_desc.innerHTML = meilleur_film.description
   bm_desc.classList.add("bm-desc")
+  bm_img = document.querySelector("#bm-img")
   document.querySelector("#bm-img").src = meilleur_film.image_url
+  bm_img.addEventListener("click", function(){
+    create_movie_modal_content(meilleur_film)
+  });
 
   // Les 3 autres catégories
   const headings = document.getElementsByTagName("h1")
